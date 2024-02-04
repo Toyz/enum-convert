@@ -130,6 +130,15 @@ fn generate_numeric_conversions(name: &Ident, enum_type: &Type, variants: &syn::
                 }
             }
         }
+
+        impl From<#enum_type> for #name {
+            fn from(value: #enum_type) -> Self {
+                match value {
+                    #( #from_arms, )*
+                    _ => panic!("No matching enum variant"),
+                }
+            }
+        }
     };
 
     (try_from_impl, from_impl)
